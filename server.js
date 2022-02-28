@@ -6,7 +6,20 @@ const postRoutes = require("./routes/post.routes");
 require("dotenv").config({ path: "./config/.env" });
 require("./config/db");
 const { checkUser, requireAuth } = require("./middleware/auth.middleware");
+const cors = require("cors");
 const app = express();
+
+//on gère le cors pour autorisé l'utilisation de l'api par d'autre adresse
+const corsOptions = {
+  origin: process.env.CLIENT_URL,
+  Credential: true,
+  allowedHeaders: ["sessionId", "Content-Type"],
+  exposedHeaders: ["sessionId"],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+};
+
+app.use(cors(corsOptions));
 
 //bodyParser permet de prendre la req et la mettre au bon format
 app.use(bodyParser.json());
